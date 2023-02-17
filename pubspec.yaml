@@ -79,9 +79,7 @@ flutter:
      - assets/img/Thermometer_icon.png
      - assets/img/3355512.png
      - assets/img/2865022.png
-     - assets/certificates/AmazonRootCA1 (1).pem
-     - assets/certificates/871653a20f4a6ceef80b3142d64b7003d70719d0e8000de4fff8a50f0588b511-private.pem.key
-     - assets/certificates/871653a20f4a6ceef80b3142d64b7003d70719d0e8000de4fff8a50f0588b511-certificate.pem.crt
+     - assets/certificates/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

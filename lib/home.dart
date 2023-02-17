@@ -16,11 +16,14 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   ///URL//
-  static const url = 'alq5vzvrt1h0b-ats.iot.ap-northeast-1.amazonaws.com';
+  static const url = 'a3ic1k7itt4ynl-ats.iot.ap-northeast-1.amazonaws.com';
 
   static const port = 8883;
 
   String heartRate = "-";
+  String o2 = "-";
+  String bp = "-";
+  String Btemp = "-";
 
   /// client id (AWS)///
   static const clientid = 'j_esp';
@@ -111,7 +114,7 @@ class _HomepageState extends State<Homepage> {
                             print('heart rate');
                           }),
                       _cardmenu(
-                          title: 'Oxygen Rate',
+                          title: 'Oxygen Rate\n$o2',
                           asset: 'assets/img/3355512.png',
                           onTap: () {
                             print('O2 rate');
@@ -129,7 +132,7 @@ class _HomepageState extends State<Homepage> {
                           onTap: () {
                             print('blood pressure');
                           },
-                          title: 'Blood Pressure',
+                          title: 'Blood Pressure\n$bp',
                           asset: 'assets/img/1934385.png',
                           color: Colors.indigoAccent,
                           fontcolor: Colors.white),
@@ -137,7 +140,7 @@ class _HomepageState extends State<Homepage> {
                           onTap: () {
                             print('body temp');
                           },
-                          title: 'Body Temprature',
+                          title: 'Body Temprature\n$Btemp',
                           asset: 'assets/img/Thermometer_icon.png'),
                     ]),
                 SizedBox(
@@ -233,15 +236,15 @@ class _HomepageState extends State<Homepage> {
     /// add certificate from AWS///
 
     ByteData crctdata = await rootBundle.load(
-        'assets/certificates/871653a20f4a6ceef80b3142d64b7003d70719d0e8000de4fff8a50f0588b511-certificate.pem.crt');
+        'assets/certificates/j_cert/5ffa4df05a3cb71787dbc1b41424489334f2ba19cecc8db6a3b5910e12b793ac-certificate.pem.crt');
     context.useCertificateChainBytes(crctdata.buffer.asUint8List());
 
     ByteData authorities =
-        await rootBundle.load('assets/certificates/AmazonRootCA1 (1).pem');
+        await rootBundle.load('assets/certificates/j_cert/AmazonRootCA1 .pem');
     context.setClientAuthoritiesBytes(authorities.buffer.asUint8List());
 
     ByteData keybyte = await rootBundle.load(
-        'assets/certificates/871653a20f4a6ceef80b3142d64b7003d70719d0e8000de4fff8a50f0588b511-private.pem.key');
+        'assets/certificates/j_cert/5ffa4df05a3cb71787dbc1b41424489334f2ba19cecc8db6a3b5910e12b793ac-private.pem.key');
     context.usePrivateKeyBytes(keybyte.buffer.asUint8List());
     client.securityContext = context;
 
@@ -282,6 +285,8 @@ class _HomepageState extends State<Homepage> {
 
         setState(() {
           heartRate = "${payloadJson["Pulse"]}";
+          bp = "${payloadJson["BP"]}";
+          Btemp = "${payloadJson["Temp"]}";
         });
       });
     } else {
