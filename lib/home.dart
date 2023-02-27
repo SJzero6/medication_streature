@@ -268,7 +268,7 @@ class _HomepageState extends State<Homepage> {
 
       const topic = 'esp32/pub';
       final maker = MqttClientPayloadBuilder();
-      maker.addString('hello jermi');
+      maker.addString('hELLO');
 
       client.publishMessage(topic, MqttQos.atLeastOnce, maker.payload!);
 
