@@ -21,9 +21,10 @@ class _HomepageState extends State<Homepage> {
   static const port = 8883;
 
   String heartRate = "-";
-  String o2 = "-";
+  String o2 = '-';
   String bp = "-";
   String Btemp = "-";
+  //String error = "ivalid";
 
   /// client id (AWS)///
   static const clientid = 'j_esp';
@@ -287,6 +288,7 @@ class _HomepageState extends State<Homepage> {
           heartRate = "${payloadJson["Pulse"]}";
           bp = "${payloadJson["BP"]}";
           Btemp = "${payloadJson["Temp"]}";
+          o2 = "${payloadJson["SPO2"]}";
         });
       });
     } else {
