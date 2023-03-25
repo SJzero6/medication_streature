@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:medication_structure/home.dart';
 
 class linechart extends StatefulWidget {
   const linechart({super.key});
@@ -11,42 +12,39 @@ class linechart extends StatefulWidget {
 class _linechartState extends State<linechart> {
   @override
   void initState() {
-    chartData = getchartdata();
     // TODO: implement initState
+    chartData = getchartdata();
     super.initState();
   }
 
   late List<LiveData> chartData;
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          body: SfCartesianChart(
-              series: <LineSeries<LiveData, int>>[
-            LineSeries<LiveData, int>(
-              dataSource: chartData,
-              color: Colors.amber,
-              xValueMapper: (LiveData sales, _) => sales.time,
-              yValueMapper: (LiveData sales, _) => sales.speed,
-            ) // LineSeries
-          ], // <LineSeries<LiveData, int>>[]
-              primaryXAxis: NumericAxis(
-                  majorGridLines: const MajorGridLines(width: 0),
-                  edgeLabelPlacement: EdgeLabelPlacement.shift,
-                  interval: 3,
-                  title: AxisTitle(text: 'Time (seconds)')), // NumericAxis
-              primaryYAxis: NumericAxis(
-                  axisLine: const AxisLine(width: 0),
-                  majorTickLines: const MajorTickLines(size: 0),
-                  title: AxisTitle(text: 'Internet speed (Mbps)')))),
-    );
+    return Scaffold(
+        body: SfCartesianChart(
+            series: <LineSeries<LiveData, int>>[
+          LineSeries<LiveData, int>(
+            dataSource: chartData,
+            color: Colors.amber,
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.speed,
+          ) // LineSeries
+        ], // <LineSeries<LiveData, int>>[]
+            primaryXAxis: NumericAxis(
+                majorGridLines: const MajorGridLines(width: 0),
+                edgeLabelPlacement: EdgeLabelPlacement.shift,
+                interval: 3,
+                title: AxisTitle(text: 'Time (seconds) ')), // NumericAxis
+            primaryYAxis: NumericAxis(
+                axisLine: const AxisLine(width: 0),
+                majorTickLines: const MajorTickLines(size: 0),
+                title: AxisTitle(text: 'Internet speed (Mbps)'))));
   }
 }
 
 List<LiveData> getchartdata() {
   return <LiveData>[
-    LiveData(0, 42),
+    LiveData(0, 43),
     LiveData(1, 47),
     LiveData(2, 43),
     LiveData(3, 49),
@@ -62,7 +60,7 @@ List<LiveData> getchartdata() {
     LiveData(13, 52),
     LiveData(14, 94),
     LiveData(15, 92),
-    LiveData(16, 86),
+    LiveData(16, 16),
     LiveData(17, 72),
     LiveData(18, 94)
   ];
