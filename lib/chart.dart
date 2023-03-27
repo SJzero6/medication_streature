@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medication_structure/provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:medication_structure/home.dart';
+import 'package:provider/provider.dart';
 
 class linechart extends StatefulWidget {
   const linechart({super.key});
@@ -12,37 +13,50 @@ class linechart extends StatefulWidget {
 class _linechartState extends State<linechart> {
   @override
   void initState() {
-    // TODO: implement initState
-    chartData = getchartdata();
+    initialSetup();
+
     super.initState();
   }
 
+  void initialSetup() async {
+    Mqttprovider mqttProvider =
+        Provider.of<Mqttprovider>(context, listen: false);
+    await mqttProvider.newAWSConnect();
+    chartData = getchartdata(mqttProvider.rawgraphdata);
+  }
+
   late List<LiveData> chartData;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SfCartesianChart(
-            series: <LineSeries<LiveData, int>>[
-          LineSeries<LiveData, int>(
-            dataSource: chartData,
-            color: Colors.amber,
-            xValueMapper: (LiveData sales, _) => sales.time,
-            yValueMapper: (LiveData sales, _) => sales.speed,
-          ) // LineSeries
-        ], // <LineSeries<LiveData, int>>[]
-            primaryXAxis: NumericAxis(
-                majorGridLines: const MajorGridLines(width: 0),
-                edgeLabelPlacement: EdgeLabelPlacement.shift,
-                interval: 3,
-                title: AxisTitle(text: 'Time (seconds) ')), // NumericAxis
-            primaryYAxis: NumericAxis(
-                axisLine: const AxisLine(width: 0),
-                majorTickLines: const MajorTickLines(size: 0),
-                title: AxisTitle(text: 'Internet speed (Mbps)'))));
+    Mqttprovider mqttProvider = Provider.of<Mqttprovider>(context);
+
+    return SafeArea(
+      child: Scaffold(
+          body: SfCartesianChart(
+              series: <LineSeries<LiveData, int>>[
+            LineSeries<LiveData, int>(
+              dataSource: chartData,
+              color: Colors.amber,
+              xValueMapper: (LiveData sales, _) => sales.time,
+              yValueMapper: (LiveData sales, _) => sales.speed,
+            ) // LineSeries
+          ], // <LineSeries<LiveData, int>>[]
+              primaryXAxis: NumericAxis(
+                  majorGridLines: const MajorGridLines(width: 0),
+                  edgeLabelPlacement: EdgeLabelPlacement.shift,
+                  interval: 3,
+                  title: AxisTitle(text: 'Time (seconds)')), // NumericAxis
+              primaryYAxis: NumericAxis(
+                  axisLine: const AxisLine(width: 0),
+                  majorTickLines: const MajorTickLines(size: 0),
+                  title: AxisTitle(text: 'ECG')))),
+    );
   }
 }
 
-List<LiveData> getchartdata() {
+List<LiveData> getchartdata(String data) {
+  for()
   return <LiveData>[
     LiveData(0, 43),
     LiveData(1, 47),

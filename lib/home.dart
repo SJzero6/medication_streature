@@ -20,8 +20,9 @@ class _HomepageState extends State<Homepage> {
   var heartRate = 0;
   var o2 = 0;
   String bp = "-";
-  String Btemp = "-";
-  //String error = "ivalid";
+  var Btemp = 0;
+  String error = "ivalid";
+
   ///URL//
   void initState() {
     Mqttprovider mqttProvider =
@@ -39,7 +40,8 @@ class _HomepageState extends State<Homepage> {
     heartRate = log["Pulse"] ?? 0;
     o2 = log["SPO2"] ?? -1;
     bp = log["BP"] ?? '-';
-    Btemp = log["Temp"] ?? '-';
+    Btemp = log["Temp"] ?? 0;
+
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.indigo.shade50,
@@ -106,15 +108,12 @@ class _HomepageState extends State<Homepage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _cardmenu(
-                          title: 'Heart Rate\n $heartRate',
-                          asset: 'assets/img/865969.png',
-                          onTap: () {
-                            print('heart rate');
-                          }),
+                        title: 'Heart Rate\n $heartRate',
+                        asset: 'assets/img/865969.png',
+                      ),
                       _cardmenu(
                           title: 'Oxygen Rate\n$o2',
                           asset: 'assets/img/3355512.png',
-                          onTap: () {},
                           color: Colors.indigoAccent,
                           fontcolor: Colors.white),
                     ]),
@@ -125,17 +124,11 @@ class _HomepageState extends State<Homepage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _cardmenu(
-                          onTap: () {
-                            print('blood pressure');
-                          },
                           title: 'Blood Pressure\n$bp',
                           asset: 'assets/img/1934385.png',
                           color: Colors.indigoAccent,
                           fontcolor: Colors.white),
                       _cardmenu(
-                          onTap: () {
-                            print('body temp');
-                          },
                           title: 'Body Temprature\n$Btemp',
                           asset: 'assets/img/Thermometer_icon.png'),
                     ]),
@@ -185,11 +178,9 @@ class _HomepageState extends State<Homepage> {
   Widget _cardmenu(
       {required String title,
       required asset,
-      VoidCallback? onTap,
       Color color = Colors.white,
       Color fontcolor = Colors.grey}) {
     return GestureDetector(
-      onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 36),
         width: 156,

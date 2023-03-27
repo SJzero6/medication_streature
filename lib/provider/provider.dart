@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:math';
+import 'package:medication_structure/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import "package:mqtt_client/mqtt_client.dart";
@@ -17,22 +18,43 @@ class Mqttprovider with ChangeNotifier {
   final client = MqttServerClient.withPort(url, clientid, port);
 
   Map<String, dynamic> _logData = {};
+  Map<String, dynamic> _dataList = {};
 
   set logData(data) {
     logData = data;
     notifyListeners();
   }
 
+  set graphdata(gdata) {
+    graphdata = gdata;
+    notifyListeners();
+  }
+
   Map<String, dynamic> get logData => _logData;
+  Map<String, dynamic> get graphdata => _dataList;
 
   String _rawLogData = "{}";
+  String _rawLogDataList = "";
 
   set rawLogData(data) {
     _rawLogData = data;
     notifyListeners();
   }
 
+  set rawgraphData(gdata) {
+    _rawLogDataList = "";
+    _rawLogDataList = gdata ?? "";
+
+    for (int i = 0; i < 150; i++) {
+      _rawLogDataList += '460,';
+    }
+    _rawLogDataList += '0';
+
+    notifyListeners();
+  }
+
   String get rawLogData => _rawLogData;
+  String get rawgraphdata => _rawLogDataList;
 
   Future<int> newAWSConnect() async {
     client.secure = true;
@@ -95,6 +117,7 @@ class Mqttprovider with ChangeNotifier {
 
         //logData = json.decode(pt);
         rawLogData = pt;
+        rawgraphData = json.decode(pt)["ECG"];
 
         // heartRate = "${payloadJson["Pulse"]}";
         // bp = "${payloadJson["BP"]}";
@@ -107,11 +130,6 @@ class Mqttprovider with ChangeNotifier {
           'ERROR MQTT client connection failed - disconnecting, state is ${client.connectionStatus!.state}');
       client.disconnect();
     }
-    // print('died');
-    // await MqttUtilities.asyncSleep(10);
-    // print('Diconnectiong....');
-    // client.disconnect();
-
     return 0;
   }
 }
